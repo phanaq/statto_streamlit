@@ -48,6 +48,7 @@ if data_type == 'Team Data':
         st.subheader(fname)
         st.dataframe(data)
 elif data_type == 'Tournaments':
+    st.write("This is Annie's sample text! Very important text!")
     # Create subview data based on selected tournaments and games
     subview_data = dict.fromkeys(SUBVIEWS)
     selected_tournaments = st.sidebar.multiselect('Tournaments', tournaments, default=tournaments)
