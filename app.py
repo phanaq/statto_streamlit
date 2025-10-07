@@ -24,19 +24,19 @@ st.set_page_config(layout="wide")
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
-if not st.session_state.logged_in:
-    st.title('Login Required')
-    username = st.text_input('Username')
-    password = st.text_input('Password', type='password')
-    login_btn = st.button('Login')
-    if login_btn:
-        if username == st.secrets.username and password == st.secrets.password:
-            st.session_state.logged_in = True
-            st.success('Login successful!')
-            st.rerun()
-        else:
-            st.error('Invalid username or password.')
-    st.stop()
+# if not st.session_state.logged_in:
+#     st.title('Login Required')
+#     username = st.text_input('Username')
+#     password = st.text_input('Password', type='password')
+#     login_btn = st.button('Login')
+#     if login_btn:
+#         if username == st.secrets.username and password == st.secrets.password:
+#             st.session_state.logged_in = True
+#             st.success('Login successful!')
+#             st.rerun()
+#         else:
+#             st.error('Invalid username or password.')
+#     st.stop()
 
 # Sidebar for data selection
 data_type = st.sidebar.radio('View', ['Tournaments', 'Team Data'])
@@ -48,6 +48,7 @@ if data_type == 'Team Data':
         st.subheader(fname)
         st.dataframe(data)
 elif data_type == 'Tournaments':
+    st.write("Sean's insterted text")
     # Create subview data based on selected tournaments and games
     subview_data = dict.fromkeys(SUBVIEWS)
     selected_tournaments = st.sidebar.multiselect('Tournaments', tournaments, default=tournaments)
