@@ -20,24 +20,6 @@ tournaments = list(tournament_data.keys())
 
 st.set_page_config(layout="wide")
 
-# --- Simple Login ---
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
-
-if not st.session_state.logged_in:
-    st.title('Login Required')
-    username = st.text_input('Username')
-    password = st.text_input('Password', type='password')
-    login_btn = st.button('Login')
-    if login_btn:
-        if username == st.secrets.username and password == st.secrets.password:
-            st.session_state.logged_in = True
-            st.success('Login successful!')
-            st.rerun()
-        else:
-            st.error('Invalid username or password.')
-    st.stop()
-
 # Sidebar for data selection
 data_type = st.sidebar.radio('View', ['Tournaments', 'Team Data'])
 
@@ -48,13 +30,18 @@ if data_type == 'Team Data':
         st.subheader(fname)
         st.dataframe(data)
 elif data_type == 'Tournaments':
-    st.write("This is Annie's sample text! Very important text!")
     # Create subview data based on selected tournaments and games
     subview_data = dict.fromkeys(SUBVIEWS)
-    selected_tournaments = st.sidebar.multiselect('Tournaments', tournaments, default=tournaments)
+    selected_tournaments = st.sidebar.multiselect('Tournaments', tournaments, default=None)
+    if selected_tournaments is None or len(selected_tournaments) == 0:
+        st.info("Please select at least one tournament from the dropdown on the left.")
+        st.stop()
     for tournament in selected_tournaments:
         games = list(tournament_data[tournament].keys())
         selected_games = st.sidebar.multiselect(tournament, games, default=games)
+        if selected_games is None or len(selected_games) == 0:
+            st.info("Please select at least one game from the dropdown on the left.")
+            st.stop()
         for game in selected_games:
             for subview_name in SUBVIEWS:
                 old_subview_data = subview_data[subview_name]
